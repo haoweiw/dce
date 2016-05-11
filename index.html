@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="revisit-after" content="15 days" />
+    <meta name="robots" content="index,follow" />
+    <meta name="author" content="Laurent Mazet"/>
+    <meta name="language" content="EN"/>
+
+    <title>DHCPD Configuration Editor</title>
+
+    <link rel="icon" href="favicon.ico" type="image/ico" />
+    <!--[if !IE 6]><!--> <link rel="stylesheet" type="text/css" href="style.css" media="all" /> <!--<![endif]-->
+    <!--[if IE 6]> <link rel="stylesheet" type="text/css" href="style-ie6.css" media="all" /> <![endif]-->
+    <!--[if IE 7]> <link rel="stylesheet" type="text/css" href="style-ie7.css" media="all" /> <![endif]-->
+    <script type="text/javascript" src="script.inc.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <!--[if IE 6]> <script type="text/javascript" src="script-ie6.js"></script> <![endif]-->
+  </head>
+
+  <body onload="javascript:show_tab ('help'); /* load_config (); */ /* log ('out'); */ update_status ('');">
+
+    <div id="header">
+      <h1>DHCPD Configuration Editor</h1>
+    </div>
+
+    <div id="function">
+
+      <dl>
+        <dt onclick="javascript:show_tab ('help');">Home</dt>
+        <dt id="edit" onclick="javascript:show_tab ('edit');">Edit</dt>
+      </dl>
+
+      <hr />
+
+      <dl>
+        <dt id="load" onclick="javascript:load_file ();">Load</dt>
+        <dt id="save" onclick="javascript:save_file ();">Save</dt>
+        <!--<dt id="apply" onclick="javascript:apply_file ();">Apply</dt> -->
+        <dt id="apply" >Apply</dt>
+      </dl>
+
+      <hr />
+
+      <dl>
+        <dt id="import" onclick="javascript:import_input ();"><input name="import_name" id="import_name" size="10" maxlength="255" type="file" value="" title="File name" onchange="javascript:import_file ();"/>Import</dt>
+        <dt id="export" onclick="javascript:export_file ();">Export</dt>
+      </dl>
+
+      <hr />
+
+<!--
+      <form method="post" action="" onsubmit="javascript: log ('in'); return false;">
+        <dl>
+          <dt id="password" class="expand">
+            <input name="password" id="pwd" maxlength="255" type="password" value="" title="Password." onkeyup="submit_on_return (event, function f() { log ('in'); });" />
+          </dt>
+          <dt id="login" onclick="javascript:log ('in');">Login</dt>
+          <dt id="logout" onclick="javascript:log ('out');">Logout</dt>
+        </dl>
+      </form>
+-->
+
+    </div>
+
+    <div id="page">
+
+      <div id="page_help">
+
+        <h2>
+        Welcome to the DHCPD Configuration Editor.
+        </h2>
+        <p>
+        DHCPD Configuration Editor is a web service to update MAC
+        address in a dhcpd.conf. It allows to:
+        </p>
+        <ul>
+          <li>
+          load a dhcpd.conf file from a dhcp-server folder,
+          </li>
+          <li>
+          save a modified dhcpd.conf file,
+          </li>
+          <li>
+          apply modification on server (restart DHCPD daemon, this function is disabled to prevent faulty activity),
+          </li>
+          <li>
+          import a dhcpd.conf file from local file-system,
+          </li>
+          <li>
+          export a modified dhcpd.conf to local file-system,
+          </li>
+          <li>
+          and, obviously, change MAC address of previously declared
+          host entries.
+          </li>
+        </ul>
+        <p>
+        The user interface is split into 5 area. On top and in the
+        bottom, there are descriptive header and footer. On left there
+        a menu panel follow by a short sub area displaying useful
+        tricks. The central area shows main information and control
+        button. Just between this area and the footer, there's a
+        status bar to display informative messages and errors.
+        </p>
+        <h3>
+        Introduction
+        </h3>
+        <p>
+        Left side menu bar contains 6 buttons. The
+        first one, named "Home", is the tab containing current
+        general information of this web service. The second button, named "Edit", switches
+        to the editor tab where entry forms are present to update MAC
+        addresses. Other buttons are linked to direct actions such as.
+        <//p>
+        <ul>
+          <li>
+          the "Load" button which is used to load a dhcpd.conf file
+          from dhcp-server folder,
+          </li>
+          <li>
+          the "Save" button which is used to save a modified dhcpd.conf
+          file,
+          </li>
+          <li>
+          the "Apply" button which is used to restart DHCPD daemon to
+          take into account of last saved changes (disabled),
+          <li>
+          the "Import" button which is used to import a dhcpd.conf file
+          from local file-system,
+          </li>
+          <li>
+          the "Export" button which is used to export a dhcpd.conf file
+          to local file-system.
+          </li>
+        </ul>
+
+
+      </div>
+
+      <div id="page_edit">
+        <h2>DHCPD Configuration</h2>
+        <form method="post" action="" onsubmit="javascript:return false;">
+          <fieldset oncontextmenu="javascript:return false;">
+            <table id="config" class="table">
+              <tr><th class="fit">Hostname</th><th class="expand">MAC address</th><th>IP address</th></tr>
+              <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            </table>
+          </fieldset>
+        </form>
+      </div>
+
+      <div id="page_import">
+        <h2>Import for non HTML5 browsers</h2>
+        <p>Your browser does not support any upload feature, you have to copy/paste your file into the following textarea.</p>
+        <textarea name="import_data" id="import_data"></textarea>
+        <dl>
+          <dt onclick="javascript: update_status ('data loading'); import_proc (document.getElementById ('import_data').value); show_tab ('help');">Submit</dt>
+          <dt onclick="javascript: show_tab ('help');">Dismiss</dt>
+        </dl>
+      </div>
+
+      <div id="page_export">
+        <h2>Export for non HTML5 browsers</h2>
+        <p>Your browser does not support any download feature, you have to copy/paste the following textarea into a file.</p>
+        <textarea name="export_data" id="export_data"></textarea>
+        <dl>
+          <dt onclick="javascript: show_tab ('help');">Dismiss</dt>
+        </dl>
+      </div>
+
+    </div>
+
+    <div id="status" class="empty">
+    </div>
+
+    <div id="footer">
+      <div class="spacer">
+        <p>Copyright &copy; </p>
+        <p>Created by haoweiw@</p>
+        <p class="version">1.0</p>
+      </div>
+    </div>
+  </body>
+</html>
