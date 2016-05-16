@@ -3,7 +3,10 @@
 /* configuration file */
 define ("CONFIGFILE", "config.inc.php");
 if (!defined ("_UNIT_TEST_")) require_once (CONFIGFILE);
-if (!defined ("DHCPDCONFIG,")) define ("DHCPDCONFIG", "");
+//if (!defined ("DHCPDCONFIG,")) define ("DHCPDCONFIG", "");
+if (!defined ("DHCPDCONFIG_CHROMEOS2,")) define ("DHCPDCONFIG_CHROMEOS2", "");
+if (!defined ("DHCPDCONFIG_CHROMEOS4,")) define ("DHCPDCONFIG_CHROMEOS4", "");
+if (!defined ("DHCPDCONFIG_CHROMEOS6,")) define ("DHCPDCONFIG_CHROMEOS6", "");
 if (!defined ("DHCPDRESTART,")) define ("DHCPDRESTART", "");
 
 /* XML header */
@@ -18,15 +21,36 @@ if (array_key_exists ("action", $_POST)) {
 
     /* select action */
     switch ($_POST["action"]) {
-    case "load":
-
+    //case "load":
+    case "chromeos2":
         /* open file and  read it */
-        $data = file_get_contents (DHCPDCONFIG);
+        $data = file_get_contents (DHCPDCONFIG_CHROMEOS2);
         if ($data !== false) {
             $content = "<data><![CDATA[" . base64_encode ($data) . "]]></data>";
             $stat = 0;
         }
         break;
+
+    case "chromeos4":
+        /* open file and  read it */
+        $data = file_get_contents (DHCPDCONFIG_CHROMEOS4);
+        if ($data !== false) {
+            $content = "<data><![CDATA[" . base64_encode ($data) . "]]></data>";
+            $stat = 0;
+        }
+        break;
+
+    case "chromeos6":
+        /* open file and  read it */
+        $data = file_get_contents (DHCPDCONFIG_CHROMEOS6);
+        if ($data !== false) {
+            $content = "<data><![CDATA[" . base64_encode ($data) . "]]></data>";
+            $stat = 0;
+        }
+        break;
+
+    
+
 
     case "save":
 

@@ -297,20 +297,20 @@ function export_file () {
 
 /* load function */
 
-function load_file () {
+function load_file_chromeos2 () {
 
   /* check that nothing has already been requested */
   if (last_action !== '') {
     window.alert ('Action <' + last_action + '> is not yet finished, please wait before starting something else!');
     return;
   }
-  last_action = 'load';
+  last_action = 'chromeos2';
 
   /* update status */
   update_status ('loading DHCPD configuration file', 0);
 
   /* create request message */
-  var params = 'action=load';
+  var params = 'action=chromeos2';
   var rxfunc = function (message) {
     var stat = message.getElementsByTagName ('stat')[0].firstChild.nodeValue;
     if (stat == 0) {
@@ -327,6 +327,73 @@ function load_file () {
   ajax_post (params, rxfunc);
 
   return '';
+ 
+}
+
+function load_file_chromeos4 () {
+
+  /* check that nothing has already been requested */
+  if (last_action !== '') {
+    window.alert ('Action <' + last_action + '> is not yet finished, please wait before starting something else!');
+    return;
+  }
+  last_action = 'chromeos4';
+
+  /* update status */
+  update_status ('loading DHCPD configuration file', 0);
+
+  /* create request message */
+  var params = 'action=chromeos4';
+  var rxfunc = function (message) {
+    var stat = message.getElementsByTagName ('stat')[0].firstChild.nodeValue;
+    if (stat == 0) {
+      var data = message.getElementsByTagName ('data')[0].firstChild.nodeValue;
+      import_proc (base64_decode (data));
+    } else {
+
+      /* update status on error */
+      update_status ('error while loading DHCPD configuration file (' + stat + ')', 2);
+    }
+    last_action = '';
+  };
+
+  ajax_post (params, rxfunc);
+
+  return '';
+ 
+}
+
+function load_file_chromeos6 () {
+
+  /* check that nothing has already been requested */
+  if (last_action !== '') {
+    window.alert ('Action <' + last_action + '> is not yet finished, please wait before starting something else!');
+    return;
+  }
+  last_action = 'chromeos6';
+
+  /* update status */
+  update_status ('loading DHCPD configuration file', 0);
+
+  /* create request message */
+  var params = 'action=chromeos6';
+  var rxfunc = function (message) {
+    var stat = message.getElementsByTagName ('stat')[0].firstChild.nodeValue;
+    if (stat == 0) {
+      var data = message.getElementsByTagName ('data')[0].firstChild.nodeValue;
+      import_proc (base64_decode (data));
+    } else {
+
+      /* update status on error */
+      update_status ('error while loading DHCPD configuration file (' + stat + ')', 2);
+    }
+    last_action = '';
+  };
+
+  ajax_post (params, rxfunc);
+
+  return '';
+ 
 }
 
 /* save function */
