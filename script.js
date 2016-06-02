@@ -396,9 +396,9 @@ function load_file_chromeos6 () {
  
 }
 
-/* save function */
+/* save function to chromeos2*/
 
-function save_file () {
+function save_file_chromeos2 () {
 
   /* check that nothing has already been requested */
   if (last_action !== '') {
@@ -412,7 +412,7 @@ function save_file () {
   /* confirmation window */
   if (!window.confirm ('Do you really want to update DHCPD configuration file on server?'))
     return;
-  last_action = 'save';
+  last_action = 'savechromeos2';
 
   /* update status */
   update_status ('saving DHCPD configuration file', 0);
@@ -423,7 +423,7 @@ function save_file () {
     return 'cancel';
 
   /* create request message */
-  var params = 'action=save&data=' + base64_encode (data);
+  var params = 'action=savechromeos2&data=' + base64_encode (data);
   var rxfunc = function (message) {
     var stat = message.getElementsByTagName ('stat')[0].firstChild.nodeValue;
     if (stat == 0) {
@@ -440,6 +440,102 @@ function save_file () {
 
   return '';
 }
+
+/* save function to chromeos4*/
+
+function save_file_chromeos4 () {
+
+  /* check that nothing has already been requested */
+  if (last_action !== '') {
+    window.alert ('Action <' + last_action + '> is not yet finished, please wait before starting something else!');
+    return;
+  }
+
+  /* update status */
+  update_status ('', 0);
+
+  /* confirmation window */
+  if (!window.confirm ('Do you really want to update DHCPD configuration file on server?'))
+    return;
+  last_action = 'savechromeos4';
+
+  /* update status */
+  update_status ('saving DHCPD configuration file', 0);
+
+  /* create csv data */
+  var data = export_proc ();
+  if (data.length == 0)
+    return 'cancel';
+
+  /* create request message */
+  var params = 'action=savechromeos4&data=' + base64_encode (data);
+  var rxfunc = function (message) {
+    var stat = message.getElementsByTagName ('stat')[0].firstChild.nodeValue;
+    if (stat == 0) {
+      /* update status on success */
+      update_status ('DHCPD configuration file saved', 0);
+    } else {
+      /* update status on error */
+      update_status ('error while saving DHCPD configuration file (' + stat + ')', 2);
+    }
+    last_action = '';
+  };
+
+  ajax_post (params, rxfunc);
+
+  return '';
+}
+
+/* save function to chromeos6*/
+
+function save_file_chromeos6 () {
+
+  /* check that nothing has already been requested */
+  if (last_action !== '') {
+    window.alert ('Action <' + last_action + '> is not yet finished, please wait before starting something else!');
+    return;
+  }
+
+  /* update status */
+  update_status ('', 0);
+
+  /* confirmation window */
+  if (!window.confirm ('Do you really want to update DHCPD configuration file on server?'))
+    return;
+  last_action = 'savechromeos6';
+
+  /* update status */
+  update_status ('saving DHCPD configuration file', 0);
+
+  /* create csv data */
+  var data = export_proc ();
+  if (data.length == 0)
+    return 'cancel';
+
+  /* create request message */
+  var params = 'action=savechromeos6&data=' + base64_encode (data);
+  var rxfunc = function (message) {
+    var stat = message.getElementsByTagName ('stat')[0].firstChild.nodeValue;
+    if (stat == 0) {
+      /* update status on success */
+      update_status ('DHCPD configuration file saved', 0);
+    } else {
+      /* update status on error */
+      update_status ('error while saving DHCPD configuration file (' + stat + ')', 2);
+    }
+    last_action = '';
+  };
+
+  ajax_post (params, rxfunc);
+
+  return '';
+}
+
+
+
+
+
+
 
 /* apply function */
 
@@ -488,4 +584,25 @@ function goto_url (url) {
   url_link.style.display = 'none';
   document.body.appendChild (url_link);
   url_link.click ();
+}
+
+/* dropdown content */
+
+function drop_down () {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
 }

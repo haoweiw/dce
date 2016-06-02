@@ -19,6 +19,7 @@ $content = "";
 /* check for action */
 if (array_key_exists ("action", $_POST)) {
 
+
     /* select action */
     switch ($_POST["action"]) {
     //case "load":
@@ -45,24 +46,69 @@ if (array_key_exists ("action", $_POST)) {
         $data = file_get_contents (DHCPDCONFIG_CHROMEOS6);
         if ($data !== false) {
             $content = "<data><![CDATA[" . base64_encode ($data) . "]]></data>";
-            $stat = 0;
+            $stat = 0;      
         }
         break;
-
     
-
-
-    case "save":
+    case "savechromeos2":
 
         /* get data from request */
         if (!array_key_exists ("data", $_POST))
             break;
         $data = base64_decode ($_POST["data"]);
-
         /* open file for writing */
-        $fd = fopen (DHCPDCONFIG, "w");
+        $fd = fopen (DHCPDCONFIG_CHROMEOS2, "w");
+        //$file = "/etc/dhcp/chromeos6";
+        //$fd = fopen ($file, "w");
         if ($fd) {
+            /* write file */
+            $stat = 0;
+            for ($written = 0; $written < strlen ($data); $written += $fwrite) {
+                $fwrite = fwrite ($fd, substr ($data, $written));
+                if ($fwrite === false) {
+                    $stat = 1;
+                    break;
+                }
+            }
+            fclose ($fd);
+        }
+        break;
 
+    case "savechromeos4":
+
+        /* get data from request */
+        if (!array_key_exists ("data", $_POST))
+            break;
+        $data = base64_decode ($_POST["data"]);
+        /* open file for writing */
+        $fd = fopen (DHCPDCONFIG_CHROMEOS4, "w");
+        //$file = "/etc/dhcp/chromeos6";
+        //$fd = fopen ($file, "w");
+        if ($fd) {
+            /* write file */
+            $stat = 0;
+            for ($written = 0; $written < strlen ($data); $written += $fwrite) {
+                $fwrite = fwrite ($fd, substr ($data, $written));
+                if ($fwrite === false) {
+                    $stat = 1;
+                    break;
+                }
+            }
+            fclose ($fd);
+        }
+        break;
+
+    case "savechromeos6":
+
+        /* get data from request */
+        if (!array_key_exists ("data", $_POST))
+            break;
+        $data = base64_decode ($_POST["data"]);
+        /* open file for writing */
+        $fd = fopen (DHCPDCONFIG_CHROMEOS6, "w");
+        //$file = "/etc/dhcp/chromeos6";
+        //$fd = fopen ($file, "w");
+        if ($fd) {
             /* write file */
             $stat = 0;
             for ($written = 0; $written < strlen ($data); $written += $fwrite) {
@@ -87,3 +133,4 @@ if (array_key_exists ("action", $_POST)) {
 
 /* create XML string */
 echo "<xml><message>$content<stat>" . $stat . "</stat></message></xml>";
+

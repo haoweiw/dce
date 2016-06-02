@@ -209,7 +209,7 @@ function export_proc () {
     //console.log(ref.value)
     if (ref && ref.value.length !== 0) {
       var re = /^([0-9A-F]{2}[:]){5}([0-9A-F]{2})$/i;
-      console.log(ref.value.length)
+      //console.log(ref.value.length)
       if (ref.value.length !== 0 && re.test(ref.value)) {
         console.log(ref.value)
         config[i].macaddr = ref.value;
@@ -231,7 +231,7 @@ function export_proc () {
   
   for (var i in tab) {
     if ((j < config.length) && (config[j].line == i)) {
-      console.log(config[j].macaddr)
+      //console.log(config[j].macaddr)
       if (config[j].macaddr != "") {
         mac_list.push(config[j].macaddr)
         //tab[i] = '\t\thost ' + config[j].hostname + ' {' + '\n' + '\t\t\thardware ethernet ' + config[j].macaddr + ';' + '\n' + '\t\t\tfixed-address ' + config[j].ipaddr + ';';
@@ -251,15 +251,18 @@ function export_proc () {
   }
   var new_mac_list = mac_list.filter(function(e){return e});
   var sort_mac = new_mac_list.slice().sort();
+  console.log(sort_mac)
   for (var i = 0; i < new_mac_list.length - 1; i++) {
+    console.log(sort_mac[i+1])
+    console.log(sort_mac[i])
     if (sort_mac[i + 1] == sort_mac[i]) {
       window.alert("Duplicate MAC address found!!" + sort_mac[i])
+      return false;
     } else {    
       data = data.replace (/\r\n/g, '\n').replace (/\r/g, '\r');
-      return data;
     }
   } 
 
   
-//  return data;
+  return data;
 }

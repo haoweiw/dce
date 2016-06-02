@@ -39,10 +39,23 @@
 
       <dl>
         <!-- <dt id="chromeos2" onclick="javascript:load_file ();">Load</dt> -->
-        <dt id="chromeos2" onclick="javascript:load_file_chromeos2 ();">Chromeos2</dt>
-        <dt id="chromeos4" onclick="javascript:load_file_chromeos4 ();">Chromeos4</dt>
-        <dt id="chromeos6" onclick="javascript:load_file_chromeos6 ();">Chromeos6</dt>
-        <dt id="save" onclick="javascript:save_file ();">Save</dt>
+        <div class="dropdown">
+          <dt button>Load</dt>
+          <div class="dropdown-content">
+            <dt id="chromeos2" onclick="javascript:load_file_chromeos2 ();">Chromeos2</dt>
+            <dt id="chromeos4" onclick="javascript:load_file_chromeos4 ();">Chromeos4</dt>
+            <dt id="chromeos6" onclick="javascript:load_file_chromeos6 ();">Chromeos6</dt>
+          </div>
+        </div>
+        <!--<dt id="save" onclick="javascript:save_file ();">Save</dt> -->
+        <div class="dropdown">
+          <dt button>Save</dt>
+          <div class="dropdown-content">
+            <dt id="savechromeos2" onclick="javascript:save_file_chromeos2 ();">Chromeos2</dt>
+            <dt id="savechromeos4" onclick="javascript:save_file_chromeos4 ();">Chromeos4</dt>
+            <dt id="savechromeos6" onclick="javascript:save_file_chromeos6 ();">Chromeos6</dt>
+          </div>
+        </div>  
         <!--<dt id="apply" onclick="javascript:apply_file ();">Apply</dt> -->
         <dt id="apply" >Apply</dt>
       </dl>
@@ -79,23 +92,23 @@
         </h2>
         <p>
         DHCPD Configuration Editor is a web service to update MAC
-        address in a dhcpd.conf. It allows to:
+        address in a lab dhcp configuration file. It allows to:
         </p>
         <ul>
           <li>
-          load a dhcpd.conf file from a dhcp-server folder,
+          load a lab dhcp configuration file from a dhcp-server folder,
           </li>
           <li>
-          save a modified dhcpd.conf file,
+          save a modified lab dhcp configuration file,
           </li>
           <li>
           apply modification on server (restart DHCPD daemon, this function is disabled to prevent faulty activity),
           </li>
           <li>
-          import a dhcpd.conf file from local file-system,
+          import a dhcp configuration file from local file-system,
           </li>
           <li>
-          export a modified dhcpd.conf to local file-system,
+          export a modified dhcp configuration file to local file-system,
           </li>
           <li>
           and, obviously, change MAC address of previously declared
@@ -104,7 +117,7 @@
         </ul>
         <p>
         The user interface is split into 5 area. On top and in the
-        bottom, there are descriptive header and footer. On left there
+        bottom, there are descriptive header and footer. On left there is 
         a menu panel follow by a short sub area displaying useful
         tricks. The central area shows main information and control
         button. Just between this area and the footer, there's a
@@ -114,7 +127,7 @@
         Introduction
         </h3>
         <p>
-        Left side menu bar contains 6 buttons. The
+        Left side menu bar contains 7 buttons. The
         first one, named "Home", is the tab containing current
         general information of this web service. The second button, named "Edit", switches
         to the editor tab where entry forms are present to update MAC
@@ -122,12 +135,13 @@
         <//p>
         <ul>
           <li>
-          the "Load" button which is used to load a dhcpd.conf file
-          from dhcp-server folder,
+          the "Load" button which is used to load a lab dhcp files
+          from dhcp-server folder, A hover dropdown will display once
+          the cursor is moved to that button,
           </li>
           <li>
-          the "Save" button which is used to save a modified dhcpd.conf
-          file,
+          the "Save" button which is used to save a modified lab dhcp file,
+          A hover dropdown will display once the cursor is moved to that button,
           </li>
           <li>
           the "Apply" button which is used to restart DHCPD daemon to
